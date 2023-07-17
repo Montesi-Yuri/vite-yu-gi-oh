@@ -1,14 +1,19 @@
 <script>
 import Component1 from './components/Component1.vue'
+import axios from "axios";
+import { store } from './store.js';
 
 export default {
   data() {
-    return {
-    }
+	return {
+	}
   },
   components:{
-    Component1
-  }
+	Component1
+  },
+  created() {
+        
+	},
 }
 
 </script>
