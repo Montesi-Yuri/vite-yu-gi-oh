@@ -6,6 +6,8 @@ import { store } from './store.js';
 export default {
   data() {
 	return {
+		store,
+		
 	}
   },
   components:{
@@ -20,8 +22,9 @@ export default {
 	axios
             .get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
             .then(response => {
-                console.log(response);
-                
+                console.log(response.data);
+                store.cards = response.data.data;
+				console.log(this.store);
             });
 	},
 }
@@ -51,15 +54,15 @@ export default {
 				<div class="single-card">
 
 					<div>
-						<img src="" alt="Card Image">
+						<img :src="store.cards[0].card_images[0].image_url" alt="Card Image">
 					</div>
 
 					<h3>
-						TITLE
+						{{ store.cards[0].name}}
 					</h3>
 
 					<h4>
-						TYPE
+						{{ store.cards[0].archetype}}
 					</h4>
 
 				</div>
@@ -104,20 +107,26 @@ main{
 	input{
 		margin: 20px;
 	}
+
+	.cards-container{
+		background-color: white;
+		padding: 20px;
+	}
 	.cards-container > h4{
 		background-color: #212529;
 		color: white;
 		padding: 20px;
+		margin: 0;
 	}
 	.single-card{
 		background-color: orange;
 		width: 200px;
+		padding: 5px;
 		border: 1px solid black;
 		text-align: center;
 
 		img{
 			width: 100%;
-			padding: 5px;
 		}
 		h3{
 			text-transform: uppercase;
