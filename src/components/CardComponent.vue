@@ -6,8 +6,14 @@ export default {
     }
   },
   props:{
-	imageSrc: String,
-	title: String,
+	imageSrc: {
+		String,
+		default: 'Unknown'
+	},
+	title: {
+		String,
+		default: 'Unknown'
+	},
 	type: {
 		String,
 		default: 'Unknown'

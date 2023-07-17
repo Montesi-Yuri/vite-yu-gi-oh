@@ -4,28 +4,43 @@ import axios from "axios";
 import { store } from './store.js';
 
 export default {
-  data() {
-	return {
-		store,
-	}
-  },
-  components:{
-	CardComponent
-  },
-  methods:{
-	getImgPath: function(src) {
-          return new URL(`${src}`, import.meta.url).href
-        },
-  },	
-  created() {
-	axios
-            .get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
-            .then(response => {
-                console.log(response.data);
-                store.cards = response.data.data;
-				console.log(this.store);
-            });
+	data() {
+		return {
+			store,
+			archetypes:[
+
+			],
+		}
 	},
+	components:{
+		CardComponent
+	},
+	methods:{
+		getImgPath: function(src) {
+			return new URL(`${src}`, import.meta.url).href
+		},
+	},	
+	created(){
+		axios
+			.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
+			.then(response => {
+				store.cards = response.data.data;
+			});
+	},
+	mounted(){
+		for (let i = 0; i < this.store.cards.length; i++) {
+			const card = this.store.cards[i];
+			console.log(card.archetype);
+			if(!this.archetypes.includes(card.archetype) && card.archetype != null){
+				this.archetypes.push(card.archetype);
+				console.log(this.archetypes, 'classi carte')
+			}
+			else if(!this.archetypes.includes('Unknown') && card.archetype == null){
+				this.archetypes.push('Unknown');
+			}
+		}
+	}
+	
 }
 
 </script>
@@ -43,7 +58,18 @@ export default {
 
   <main>
 		<div class="container">
-			<input type="text">
+
+			<select name="cards-type-select" id="">
+
+				<option value="" v-for="(type,i) in this.archetypes" :key="i">
+					{{ type }}
+				</option>
+
+			</select>
+
+			<button>
+				Search
+			</button>
 
 			<div class="cards-container">
 				<h4>
@@ -52,7 +78,8 @@ export default {
 				<CardComponent v-for="(card, i) in store.cards" :key="i"
 				:image-src="card.card_images[0].image_url"
 				:title="card.name"
-				:type="card.archetype">
+				:type="card.archetype"
+				:class="card.archetype == null ? 'Unknown' : card.archetype">
 				</CardComponent>
 			</div>
 		</div>
@@ -91,8 +118,24 @@ main{
 	background-color: orange;
 	padding-bottom: 30px;
 
-	input{
+	select{
 		margin: 20px;
+		padding: 5px;
+		border: 1px solid black;
+		border-radius: 5px;
+	}
+
+	button{
+		padding: 5px;
+		border: 1px solid black;
+		border-radius: 5px;
+		background-color: #212529;
+		color: white;
+		cursor: pointer;
+
+		&:hover{
+			background-color: grey;
+		}
 	}
 
 	.cards-container{
