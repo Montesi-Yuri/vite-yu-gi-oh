@@ -1,5 +1,5 @@
 <script>
-import Component1 from './components/Component1.vue'
+import CardComponent from './components/CardComponent.vue'
 import axios from "axios";
 import { store } from './store.js';
 
@@ -7,11 +7,10 @@ export default {
   data() {
 	return {
 		store,
-		
 	}
   },
   components:{
-	Component1
+	CardComponent
   },
   methods:{
 	getImgPath: function(src) {
@@ -48,26 +47,14 @@ export default {
 
 			<div class="cards-container">
 				<h4>
-					Found N cards
+					Found {{ store.cards.length }} cards
 				</h4>
-
-				<div class="single-card">
-
-					<div>
-						<img :src="store.cards[0].card_images[0].image_url" alt="Card Image">
-					</div>
-
-					<h3>
-						{{ store.cards[0].name}}
-					</h3>
-
-					<h4>
-						{{ store.cards[0].archetype}}
-					</h4>
-
-				</div>
+				<CardComponent v-for="(card, i) in store.cards" :key="i"
+				:image-src="card.card_images[0].image_url"
+				:title="card.name"
+				:type="card.archetype">
+				</CardComponent>
 			</div>
-
 		</div>
   </main>
 
@@ -102,7 +89,7 @@ header{
 
 main{
 	background-color: orange;
-	height: calc(100vh - 100px);
+	padding-bottom: 30px;
 
 	input{
 		margin: 20px;
@@ -110,30 +97,20 @@ main{
 
 	.cards-container{
 		background-color: white;
-		padding: 20px;
+		padding: 30px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 	}
 	.cards-container > h4{
 		background-color: #212529;
 		color: white;
 		padding: 20px;
 		margin: 0;
+		margin-bottom: 10px;
+		width: 100%;
 	}
-	.single-card{
-		background-color: orange;
-		width: 200px;
-		padding: 5px;
-		border: 1px solid black;
-		text-align: center;
-
-		img{
-			width: 100%;
-		}
-		h3{
-			text-transform: uppercase;
-			color: white;
-		}
-		
-	}
+	
 }
 
 </style>
