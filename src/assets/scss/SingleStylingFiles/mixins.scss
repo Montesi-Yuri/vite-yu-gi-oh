@@ -1,0 +1,12 @@
+/*
+    MIXINS
+*/
+
+@mixin reset{
+    box-sizing: border-box;
+    margin: 0 auto;
+    
+    li{
+        list-style: none;
+    }
+}
