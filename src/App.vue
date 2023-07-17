@@ -25,22 +25,20 @@ export default {
 			.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
 			.then(response => {
 				store.cards = response.data.data;
-			});
+
+				for (let i = 0; i < this.store.cards.length; i++) {
+					const card = this.store.cards[i];
+					console.log(card.archetype);
+					if(!this.archetypes.includes(card.archetype) && card.archetype != null){
+						this.archetypes.push(card.archetype);
+						console.log(this.archetypes, 'classi carte')
+					}
+					else if(!this.archetypes.includes('Unknown') && card.archetype == null){
+						this.archetypes.push('Unknown');
+					}
+				}	
+		});
 	},
-	mounted(){
-		for (let i = 0; i < this.store.cards.length; i++) {
-			const card = this.store.cards[i];
-			console.log(card.archetype);
-			if(!this.archetypes.includes(card.archetype) && card.archetype != null){
-				this.archetypes.push(card.archetype);
-				console.log(this.archetypes, 'classi carte')
-			}
-			else if(!this.archetypes.includes('Unknown') && card.archetype == null){
-				this.archetypes.push('Unknown');
-			}
-		}
-	}
-	
 }
 
 </script>
@@ -59,7 +57,7 @@ export default {
   <main>
 		<div class="container">
 
-			<select name="cards-type-select" id="">
+			<select name="" id="">
 
 				<option value="" v-for="(type,i) in this.archetypes" :key="i">
 					{{ type }}
@@ -91,16 +89,14 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use './assets/scss/SingleStylingFiles/reset.scss' as *;
 
+@use './assets/scss/SingleStylingFiles/reset.scss' as *;
 .container{
 	max-width: 1200px;
 	margin: 0 auto;
 }
 
 header{
-
-
 	> div{
 		padding-left: 20px;
 	}
@@ -117,14 +113,12 @@ header{
 main{
 	background-color: orange;
 	padding-bottom: 30px;
-
 	select{
 		margin: 20px;
 		padding: 5px;
 		border: 1px solid black;
 		border-radius: 5px;
 	}
-
 	button{
 		padding: 5px;
 		border: 1px solid black;
@@ -132,12 +126,10 @@ main{
 		background-color: #212529;
 		color: white;
 		cursor: pointer;
-
 		&:hover{
 			background-color: grey;
 		}
 	}
-
 	.cards-container{
 		background-color: white;
 		padding: 30px;
@@ -153,7 +145,6 @@ main{
 		margin-bottom: 10px;
 		width: 100%;
 	}
-	
 }
 
 </style>
