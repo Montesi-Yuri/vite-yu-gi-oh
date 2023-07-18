@@ -4,5 +4,8 @@ export const store = reactive({
     cards:[
 
     ],
-    classSelect:''
+    classSelect:'',
+    archetypes:[
+    ],
+    currentPage : '',
 });

@@ -42,18 +42,28 @@ export default {
 .single-card{
 		background-color: orange;
 		width: 200px;
-		height: 450px;
+		height: 420px;
 		padding: 5px;
 		border: 1px solid black;
 		text-align: center;
 		margin: 10px 10px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
 		
 		img{
 			width: 100%;
 		}
 		h3{
+			width: 100%;
 			text-transform: uppercase;
 			color: white;
+			margin-bottom: 0;
+		}
+		h4{
+			width: 100%;
+			margin-bottom: 0;
 		}
 	}
 
