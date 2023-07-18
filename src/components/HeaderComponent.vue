@@ -1,4 +1,5 @@
 <script>
+import ArchetypesCounter from './ArchetypesCounter.vue';
 import { store } from '../store.js';
 import axios from "axios";
 
@@ -7,6 +8,9 @@ export default {
     return {
         store
     }
+  },
+  components:{
+    ArchetypesCounter
   },
   methods:{
 		getImgPath: function(src) {
@@ -24,7 +28,6 @@ export default {
 						store.currentPage.push(card);
 					}
 				}
-				console.log('data', response.data.data.length)
 		});
 		}
 	},	
@@ -51,9 +54,10 @@ export default {
                     {{ type.archetype_name }}
                 </option>
             </select>
-            <button @click.prevent="getSelectItems()">
+            <button @click.prevent="getSelectItems()" @click="$emit('typeTotal')">
                 Search
             </button>
+            <ArchetypesCounter></ArchetypesCounter>
         </div>
     </section>
 

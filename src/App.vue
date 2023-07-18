@@ -1,6 +1,7 @@
 <script>
 import CardComponent from './components/CardComponent.vue';
 import HeaderComponent from './components/HeaderComponent.vue';
+
 import axios from "axios";
 import { store } from './store.js';
 
@@ -13,7 +14,7 @@ export default {
 	},
 	components:{
 		CardComponent,
-		HeaderComponent
+		HeaderComponent,
 	},
 	created(){
 		axios
@@ -41,9 +42,12 @@ export default {
 
 			<div class="cards-container">
 
-				<h4>
-					Found {{ store.currentPage.length }} cards
-				</h4>
+				<div class="cards-total">
+					<h4>
+						Found {{ store.currentPage.length }} cards
+					</h4>
+				</div>
+				
 				
 				<CardComponent v-for="(card, i) in store.currentPage" :key="i"
 				:image-src="card.card_images[0].image_url"
@@ -72,24 +76,25 @@ export default {
 main{
 	background-color: orange;
 	padding-bottom: 30px;
-
-	
-	
 	.cards-container{
 		background-color: white;
 		padding: 30px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-	}
-	.cards-container > h4{
-		background-color: #212529;
-		color: white;
-		padding: 20px;
-		margin: 0;
-		margin-bottom: 10px;
-		width: 100%;
-	}
+
+		.cards-total{
+			width: 100%;
+			background-color: #212529;
+			padding: 20px;
+		}
+		h4{
+			background-color: #212529;
+			color: white;
+			margin-left: 10px;
+			display: inline-block;
+		}
+	}	
 }
 
 </style>
