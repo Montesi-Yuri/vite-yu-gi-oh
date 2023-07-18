@@ -8,8 +8,8 @@ export default {
 		return {
 			store,
 			archetypes:[
-
 			],
+			currentPage : '',
 		}
 	},
 	components:{
@@ -19,24 +19,36 @@ export default {
 		getImgPath: function(src) {
 			return new URL(`${src}`, import.meta.url).href
 		},
+		getSelectItems(){
+			this.currentPage = [];
+			axios
+			.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=250&offset=0')
+			.then(response => {
+				
+				for (let i = 0; i < response.data.data.length; i++) {
+					const card = response.data.data[i];
+					if (card.archetype == store.classSelect ) {
+						this.currentPage.push(card);
+						console.log('pushed', this.currentPage)
+					}
+				}
+				console.log('data', response.data.data.length)
+
+		});
+		}
 	},	
 	created(){
 		axios
 			.get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
 			.then(response => {
 				store.cards = response.data.data;
-
-				for (let i = 0; i < this.store.cards.length; i++) {
-					const card = this.store.cards[i];
-					console.log(card.archetype);
-					if(!this.archetypes.includes(card.archetype) && card.archetype != null){
-						this.archetypes.push(card.archetype);
-						console.log(this.archetypes, 'classi carte')
-					}
-					else if(!this.archetypes.includes('Unknown') && card.archetype == null){
-						this.archetypes.push('Unknown');
-					}
-				}	
+				this.currentPage = store.cards;
+		});
+		axios
+			.get('https://db.ygoprodeck.com/api/v7/archetypes.php')
+			.then(response => {
+				this.archetypes = response.data;
+				console.log('array types:', this.archetypes)
 		});
 	},
 }
@@ -54,37 +66,38 @@ export default {
 		</div>
 	</header>
 
-  <main>
+  	<main>
 		<div class="container">
 
-			<select name="" id="">
-
-				<option value="" v-for="(type,i) in this.archetypes" :key="i">
-					{{ type }}
+			<select name="" id="" v-model="store.classSelect">
+				<option :value="type.archetype_name" v-for="(type,i) in this.archetypes" :key="i">
+					{{ type.archetype_name }}
 				</option>
-
 			</select>
 
-			<button>
+			<button @click.prevent="getSelectItems()">
 				Search
 			</button>
 
 			<div class="cards-container">
+
 				<h4>
-					Found {{ store.cards.length }} cards
+					Found {{ currentPage.length }} cards
 				</h4>
-				<CardComponent v-for="(card, i) in store.cards" :key="i"
+				
+				<CardComponent v-for="(card, i) in currentPage" :key="i"
 				:image-src="card.card_images[0].image_url"
 				:title="card.name"
 				:type="card.archetype"
 				:class="card.archetype == null ? 'Unknown' : card.archetype">
 				</CardComponent>
+
 			</div>
 		</div>
-  </main>
+  	</main>
 
-  <footer>
-  </footer>
+	<footer>
+	</footer>
 
 </template>
 
@@ -135,7 +148,6 @@ main{
 		padding: 30px;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
 	}
 	.cards-container > h4{
 		background-color: #212529;

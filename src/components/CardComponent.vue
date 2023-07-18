@@ -42,11 +42,12 @@ export default {
 .single-card{
 		background-color: orange;
 		width: 200px;
+		height: 450px;
 		padding: 5px;
 		border: 1px solid black;
 		text-align: center;
-		margin: 10px 0;
-
+		margin: 10px 10px;
+		
 		img{
 			width: 100%;
 		}
@@ -54,7 +55,6 @@ export default {
 			text-transform: uppercase;
 			color: white;
 		}
-		
 	}
 
 </style>
