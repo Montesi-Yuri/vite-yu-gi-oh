@@ -5,10 +5,12 @@ import axios from "axios";
 export default{
     data(){
         return{
-            archetypeNumber: 0,
             store
         }
 
+    },
+    props:{
+        archetypeNumber: Number,
     },
     methods:{
         archetypesSelectTotal(){
@@ -16,6 +18,7 @@ export default{
 			.get('https://db.ygoprodeck.com/api/v7/cardinfo.php')
 			.then(response => {
 				this.archetypeNumber = '';
+                console.log('api call', response.data)
 				for (let i = 0; i < response.data.data.length; i++) {
 					const card = response.data.data[i];
                     console.log(store.classSelect, 'class select')

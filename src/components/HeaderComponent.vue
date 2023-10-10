@@ -6,7 +6,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-        store
+        store,
+		archetypeNumber: 0,
+        
     }
   },
   components:{
@@ -28,8 +30,25 @@ export default {
 						store.currentPage.push(card);
 					}
 				}
-		});
-		}
+			});
+		},
+		// archetypesSelectTotal(){
+        //     axios
+		// 	.get('https://db.ygoprodeck.com/api/v7/cardinfo.php')
+		// 	.then(response => {
+		// 		this.archetypeNumber = '';
+        //         console.log('lunghezza current page', store.currentPage.length)
+		// 		for (let i = 0; i < response.data.data.length; i++) {
+		// 			const card = response.data.data[i];
+        //             console.log(store.classSelect, 'class select')
+		// 			if (card.archetype == store.classSelect ) {
+		// 				this.archetypeNumber ++;
+        //                 console.log('entrato')
+		// 			}
+		// 		}
+		// 		console.log('tot archetype', this.archetypeNumber)
+		// });
+        // }
 	},	
 }
 
@@ -54,10 +73,12 @@ export default {
                     {{ type.archetype_name }}
                 </option>
             </select>
-            <button @click.prevent="getSelectItems()" @click="$emit('typeTotal')">
+            <button @click.prevent="getSelectItems()">
                 Search
             </button>
-            <ArchetypesCounter></ArchetypesCounter>
+            <ArchetypesCounter
+				:archetype-number="store.currentPage.length"
+			></ArchetypesCounter>
         </div>
     </section>
 
